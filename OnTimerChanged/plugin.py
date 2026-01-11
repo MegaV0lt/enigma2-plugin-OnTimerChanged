@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-# OnTimerChanged.py
-# Plugin for Enigma2 (Python 3)
+# 'OnTimerChanged' Plugin for Enigma2 (Python 3)
 # Description: Execute a script when a timer status changes
 #
 # Based on OnRecEnd by rdamas @ Opena.tv
 # Modified by MegaV0lt @ Opena.tv
+#   Runs on Enigma2 with Python3
 #   Added handling for all TimerEntry states.
 #   Added script for handling the different states
 
