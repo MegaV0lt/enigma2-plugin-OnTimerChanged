@@ -1,6 +1,6 @@
-# My Enigma2 Plugin
+# Enigma2 Plugin - On Timer Changed
 
-This is a plugin for Enigma2 receivers that provides 'Recording hook'.
+This is a plugin for Enigma2 receivers that provides a 'Recording hook'.
 Every time a timer status changes the script 'timerchanged.sh' is executed.
 
 ## Installation
