@@ -10,11 +10,10 @@
 # Example:
 # timerchanged.sh 'started' '/media/hdd/movie/20260111 2000 - Das Erste - Tagesschau'
 
-
 # Author: MegaV0lt @ Opena.tv
 
 # Log the timer state change
-LOG_FILE='/media/usb/logs/timerchanged.log'  # Path to the log file (/dev/null to disable logging)
+LOG_FILE='/var/log/timerchanged.log'  # Path to the log file (/dev/null to disable logging)
 
 STATE="$1"
 RECORDING="$2"
