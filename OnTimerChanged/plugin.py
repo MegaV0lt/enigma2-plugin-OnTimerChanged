@@ -9,17 +9,18 @@
 #   Added handling for all TimerEntry states.
 #   Added script for handling the different states
 
-import os
-import subprocess
+from os import access, X_OK
+from os.path import isfile, split
 
+from Components.Task import Job, Task, job_manager
 from Plugins.Plugin import PluginDescriptor
 from timer import TimerEntry
 
 def TimerChange(timer):
     cmd = "/usr/lib/enigma2/python/Plugins/Extensions/OnTimerChanged/timerchanged.sh"
     print("[OnTimerChanged] TimerChange called")
-    if os.path.isfile(cmd) and os.access(cmd, os.X_OK) and hasattr(timer, "Filename") and not timer.justplay and not timer.justremind:
-        path, filename = os.path.split(timer.Filename)
+    if isfile(cmd) and access(cmd, X_OK) and hasattr(timer, "Filename") and not timer.justplay and not timer.justremind:
+        path, filename = split(timer.Filename)
         state_map = {
             TimerEntry.StateWaiting: "waiting",
             TimerEntry.StatePrepared: "prepared",
@@ -28,10 +29,14 @@ def TimerChange(timer):
             TimerEntry.StateFailed: "failed",
             TimerEntry.StateDisabled: "disabled",
         }
+
         if timer.state in state_map:
-            print("[OnTimerChanged] TimerChange {0} recording: {1}".format(state_map[timer.state], filename))
-            pid = subprocess.Popen([ cmd, state_map[timer.state], timer.Filename ]).pid
-            print("[OnTimerChanged] has pid:", pid)
+            state = state_map[timer.state]
+            print(f"[OnTimerChanged] TimerChange {state} recording: {filename}")
+            job = Job(f"OnTimerChanged: {state} {filename}")
+            task = Task(job, "timerchanged.sh")
+            task.setCommandline(cmd, [cmd, state, timer.Filename])
+            job_manager.AddJob(job, onFail=lambda *_: None)
 
 def autostart(reason, **kwargs):
     if "session" in kwargs and reason == 0:
